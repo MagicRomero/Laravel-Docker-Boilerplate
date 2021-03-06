@@ -24,6 +24,7 @@ if test -f "./src/.env"; then
     docker-compose run artisan key:generate
     docker-compose run artisan telescope:install
     docker-compose run --rm artisan migrate:fresh --seed
+    docker-compose run --rm npm install
 
     if test -f "./create-commands-alias.sh"; then
         /bin/bash ./create-commands-alias.sh
