@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 networks:
   laravel:
@@ -44,22 +44,22 @@ services:
       - laravel
 
   phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin
-        restart: always
-        depends_on:
-            - db
-        ports:
-            - "8082:80"
-        environment:
-            - PMA_HOST=mysql
-            - PMA_ARBITRARY=1
-            - PMA_PORT=3306
-            - HIDE_PHP_VERSION=true
-        networks:
-            - laravel
-        links: 
-          - db
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8082:80"
+    environment:
+      - PMA_HOST=mysql
+      - PMA_ARBITRARY=1
+      - PMA_PORT=3306
+      - HIDE_PHP_VERSION=true
+    networks:
+      - laravel
+    links:
+      - db
   php:
     build:
       context: .
@@ -91,20 +91,19 @@ services:
     depends_on:
       - php
     user: laravel
-    entrypoint: ['composer', '--ignore-platform-reqs']
+    entrypoint: ["composer", "--ignore-platform-reqs"]
     networks:
       - laravel
 
   npm:
     image: mhart/alpine-node
     container_name: npm
+    entrypoint: ["npm"]
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
-    entrypoint: ['npm']
     ports:
-     - 8083:8083
-     - 6001:6001
+      - 6001:6001
     depends_on:
       - redis
     networks:
@@ -121,7 +120,7 @@ services:
       - db
     working_dir: /var/www/html
     user: laravel
-    entrypoint: ['php', '/var/www/html/artisan']
+    entrypoint: ["php", "/var/www/html/artisan"]
     networks:
       - laravel
 
